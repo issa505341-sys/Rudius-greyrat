@@ -1,0 +1,9 @@
+{
+  "name": "Rudius Greyrat",
+  "short_name": "Rudius",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0c0716",
+  "theme_color": "#10091e",
+  "description": "Descubre y guarda tus animes favoritos."
+}

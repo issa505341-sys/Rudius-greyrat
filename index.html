@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10091e">
+<meta name="description" content="Rudius Greyrat: descubre anime, guarda favoritos y explora nuevos títulos.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Rudius Greyrat</title>
+<style>
+:root{--bg:#0c0716;--panel:#191128;--panel2:#241637;--purple:#9b63ff;--pink:#e18cff;--text:#f7f1ff;--muted:#b9aacb;--line:#ffffff1c}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#48216c 0,#160d25 36%,var(--bg) 75%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh;padding-bottom:105px}
+header{padding:22px 17px 12px;max-width:980px;margin:auto}.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,#b16cff,#5c2c9c);display:grid;place-items:center;font-weight:900;font-size:19px;box-shadow:0 8px 25px #8d4cff55}.brand h1{font-size:19px;margin:0;letter-spacing:.2px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+main{max-width:980px;margin:auto;padding:0 16px}.hero{border:1px solid #ffffff20;border-radius:25px;padding:22px 19px;min-height:175px;background:linear-gradient(115deg,#452067dd,#21122fdd 60%,#171022ee),radial-gradient(circle at 85% 20%,#b76bff,transparent 42%);box-shadow:0 16px 45px #0005;position:relative;overflow:hidden}.hero:after{content:"✦";position:absolute;right:25px;top:12px;font-size:90px;color:#ffffff17}.eyebrow{color:#e0baff;text-transform:uppercase;letter-spacing:2px;font-size:10px;font-weight:800}.hero h2{font-size:25px;line-height:1.1;margin:10px 0 8px;max-width:430px}.hero p{color:#e0d4ec;font-size:13px;max-width:390px;line-height:1.5;margin:0 0 16px}.pill{display:inline-block;background:#ffffff18;border:1px solid #ffffff25;border-radius:99px;padding:8px 13px;font-size:11px;color:white}
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:25px 2px 13px}.section-head h3{font-size:17px;margin:0}.section-head span{font-size:11px;color:var(--muted)}
+.search-wrap{margin:17px 0 10px;display:flex;gap:8px}.search-wrap input{width:100%;background:#ffffff0d;border:1px solid var(--line);border-radius:15px;padding:13px 14px;color:white;outline:none;font-size:14px}.search-wrap input:focus{border-color:#a76cff}
+.chips{display:flex;gap:7px;overflow:auto;padding:3px 0 8px;scrollbar-width:none}.chips button{white-space:nowrap;background:#ffffff0d;border:1px solid var(--line);color:#d9cce8;border-radius:99px;padding:8px 12px;font-size:11px}.chips button.active{background:#8f4ee8;color:white;border-color:#b98aff}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 10px}.anime{min-width:0;cursor:pointer}.poster{aspect-ratio:2/3;border-radius:14px;overflow:hidden;background:linear-gradient(145deg,#50316d,#20162e);position:relative;border:1px solid #ffffff20;box-shadow:0 8px 18px #0004}.poster img{width:100%;height:100%;object-fit:cover;display:block}.poster .fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px;background:linear-gradient(150deg,#583078,#20162f 75%)}.fallback b{font-size:clamp(11px,3vw,17px);line-height:1.15}.fallback small{font-size:9px;color:#e2c8ff;margin-top:9px;letter-spacing:1px}.anime-title{font-size:12px;font-weight:700;line-height:1.3;margin:7px 1px 3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.anime-meta{font-size:10px;color:var(--muted);margin-left:1px}.tag{position:absolute;left:6px;top:6px;background:#120b20d9;border:1px solid #ffffff25;border-radius:7px;padding:4px 6px;font-size:9px}
+.empty{padding:30px;text-align:center;color:var(--muted);font-size:13px;grid-column:1/-1}
+nav{position:fixed;z-index:10;bottom:max(13px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(94%,540px);display:grid;grid-template-columns:repeat(5,1fr);padding:8px;background:#241a32c9;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid #ffffff2c;border-radius:25px;box-shadow:0 12px 35px #0009}.navbtn{border:0;background:transparent;color:#c8b9d8;font-size:9px;padding:5px 1px;display:flex;flex-direction:column;align-items:center;gap:4px}.navbtn .ico{font-size:19px}.navbtn.active{color:#e0b7ff}.navbtn.active .ico{filter:drop-shadow(0 0 7px #bd82ff)}
+.view{display:none}.view.active{display:block}
+.profile-card{background:#ffffff0c;border:1px solid var(--line);border-radius:20px;padding:18px}.profile-row{display:flex;align-items:center;gap:14px}.avatar{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,#b16cff,#4b2677);display:grid;place-items:center;font-size:27px;border:2px solid #ffffff55}.profile-card p{color:var(--muted);font-size:13px}
+.detail{position:fixed;inset:0;background:#090510f2;z-index:20;display:none;overflow:auto;padding:24px 18px}.detail.show{display:block}.detail-inner{max-width:650px;margin:20px auto;background:#21152f;border:1px solid var(--line);border-radius:24px;padding:18px}.detail-top{display:flex;gap:16px}.detail-top img{width:118px;aspect-ratio:2/3;object-fit:cover;border-radius:13px;background:#49305e}.detail h2{font-size:19px;margin:3px 0 8px}.detail p{font-size:12px;color:#d0c3dc;line-height:1.55}.close{float:right;background:#ffffff18;border:1px solid var(--line);color:white;border-radius:99px;padding:8px 12px}.action{border:0;background:linear-gradient(100deg,#9855ed,#c16de8);color:white;padding:11px 15px;border-radius:12px;font-weight:700;margin-top:8px}
+.note{font-size:10px;color:#9888a9;text-align:center;margin:22px 0}
+@media(min-width:650px){.grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 15px}.hero{padding:30px;min-height:205px}.hero h2{font-size:32px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">RG</div><div><h1>Rudius Greyrat</h1><small>Tu espacio para descubrir anime</small></div></div></header>
+<main>
+<section id="home" class="view active">
+  <div class="hero"><div class="eyebrow">Tu próximo mundo empieza aquí</div><h2>Encuentra tu próximo anime favorito</h2><p>Explora aventuras, fantasía, acción y mucho más en un catálogo hecho para fans.</p><span class="pill">✦ Explorar catálogo</span></div>
+  <div class="section-head"><h3>Populares</h3><span>Selección inicial</span></div>
+  <div class="grid" id="popularGrid"></div>
+</section>
+<section id="catalog" class="view">
+  <div class="section-head"><h3>Catálogo</h3><span id="countLabel">Anime destacados</span></div>
+  <div class="search-wrap"><input id="search" type="search" placeholder="Buscar anime por nombre..." aria-label="Buscar anime"></div>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="catalogGrid"></div>
+</section>
+<section id="favorites" class="view">
+  <div class="section-head"><h3>Mis favoritos</h3><span>Tu lista personal</span></div><div class="grid" id="favoriteGrid"></div>
+</section>
+<section id="profile" class="view">
+  <div class="section-head"><h3>Mi perfil</h3><span>Rudius Greyrat</span></div>
+  <div class="profile-card"><div class="profile-row"><div class="avatar">RG</div><div><b>Otaku</b><div class="anime-meta">@rudius_fan</div></div></div><p>Bienvenido a tu rincón de anime. Guarda tus series favoritas y descubre nuevas historias.</p></div>
+  <p class="note">La personalización de perfil y la sincronización de cuenta se añadirán en una próxima versión.</p>
+</section>
+<section id="searchView" class="view">
+  <div class="section-head"><h3>Buscar anime</h3><span>Encuentra una historia</span></div>
+  <div class="search-wrap"><input id="search2" type="search" placeholder="Escribe un título..." aria-label="Buscar anime"></div><div class="grid" id="searchGrid"></div>
+</section>
+<p class="note" id="loadNote">Las portadas se cargan desde un catálogo público. Se necesita conexión a internet para descargarlas.</p>
+</main>
+<nav>
+<button class="navbtn active" data-view="home"><span class="ico">⌂</span>Inicio</button>
+<button class="navbtn" data-view="catalog"><span class="ico">▦</span>Catálogo</button>
+<button class="navbtn" data-view="searchView"><span class="ico">⌕</span>Buscar</button>
+<button class="navbtn" data-view="favorites"><span class="ico">♡</span>Favoritos</button>
+<button class="navbtn" data-view="profile"><span class="ico">◉</span>Perfil</button>
+</nav>
+<div class="detail" id="detail"><div class="detail-inner"><button class="close" id="closeDetail">Cerrar ✕</button><div id="detailContent"></div></div></div>
+<script>
+const shows=[
+ {id:52299,title:"Solo Leveling",genre:"Acción",tag:"Popular"},
+ {id:38000,title:"Demon Slayer",genre:"Acción",tag:"Popular"},
+ {id:40748,title:"Jujutsu Kaisen",genre:"Acción",tag:"Popular"},
+ {id:21,title:"One Piece",genre:"Aventura",tag:"Clásico"},
+ {id:1735,title:"Naruto: Shippuden",genre:"Aventura",tag:"Clásico"},
+ {id:52991,title:"Frieren",genre:"Fantasía",tag:"Destacado"},
+ {id:39535,title:"Mushoku Tensei",genre:"Fantasía",tag:"Isekai"},
+ {id:31240,title:"Re:Zero",genre:"Fantasía",tag:"Isekai"},
+ {id:11757,title:"Sword Art Online",genre:"Fantasía",tag:"Popular"},
+ {id:51009,title:"Chainsaw Man",genre:"Acción",tag:"Popular"},
+ {id:50265,title:"Spy x Family",genre:"Comedia",tag:"Popular"},
+ {id:48583,title:"My Dress-Up Darling",genre:"Romance",tag:"Popular"},
+ {id:31964,title:"My Hero Academia",genre:"Acción",tag:"Popular"},
+ {id:44511,title:"The Apothecary Diaries",genre:"Drama",tag:"Destacado"},
+ {id:28977,title:"Gintama",genre:"Comedia",tag:"Clásico"},
+ {id:40748,title:"Jujutsu Kaisen",genre:"Acción",tag:"Popular"}
+];
+const genres=["Todos","Acción","Aventura","Fantasía","Isekai","Comedia","Romance","Drama"];
+let animeData=[],favorites=new Set(),activeGenre="Todos";
+const safe=(s)=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function posterMarkup(a){const url=a.image||"";return `<div class="poster"><div class="fallback"><b>${safe(a.title)}</b><small>RUDIUS GREYRAT</small></div>${url?`<img loading="lazy" src="${safe(url)}" alt="Portada de ${safe(a.title)}" onerror="this.remove()">`:""}<span class="tag">${safe(a.tag||a.genre)}</span></div>`}
+function card(a){return `<article class="anime" data-id="${a.id}">${posterMarkup(a)}<div class="anime-title">${safe(a.title)}</div><div class="anime-meta">${safe(a.genre)} · Idioma por verificar</div></article>`}
+function renderGrid(el,arr){el.innerHTML=arr.length?arr.map(card).join(""):'<div class="empty">Todavía no hay animes en esta lista.</div>'}
+function refresh(){const q=(document.getElementById("search")?.value||"").toLowerCase();let list=animeData.filter(a=>(activeGenre==="Todos"||a.genre===activeGenre)&&a.title.toLowerCase().includes(q));renderGrid(document.getElementById("catalogGrid"),list);document.getElementById("countLabel").textContent=list.length+" títulos";renderGrid(document.getElementById("popularGrid"),animeData.slice(0,9));renderGrid(document.getElementById("favoriteGrid"),animeData.filter(a=>favorites.has(a.id)));}
+function makeChips(){document.getElementById("chips").innerHTML=genres.map(g=>`<button class="${g===activeGenre?'active':''}" data-genre="${g}">${g}</button>`).join("")}
+function findShow(id){return animeData.find(a=>a.id===Number(id))}
+document.addEventListener("click",e=>{
+ const nav=e.target.closest(".navbtn");if(nav){document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b===nav));document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===nav.dataset.view));return}
+ const chip=e.target.closest("[data-genre]");if(chip){activeGenre=chip.dataset.genre;makeChips();refresh();return}
+ const item=e.target.closest(".anime");if(item){const a=findShow(item.dataset.id);if(!a)return;document.getElementById("detailContent").innerHTML=`<div class="detail-top"><img src="${safe(a.image||"")}" onerror="this.style.opacity='.15'" alt=""><div><h2>${safe(a.title)}</h2><div class="anime-meta">${safe(a.genre)} · ${safe(a.tag)}</div><button class="action" id="favToggle">${favorites.has(a.id)?"Quitar de favoritos":"Añadir a favoritos"}</button></div></div><p>${safe(a.synopsis||"Descubre esta serie y explora su información. Los datos de idioma y disponibilidad deben comprobarse para cada versión.")}</p><p class="anime-meta">Información e imagen de catálogo público. Rudius Greyrat no aloja episodios.</p>`;document.getElementById("favToggle").onclick=()=>{favorites.has(a.id)?favorites.delete(a.id):favorites.add(a.id);document.getElementById("favToggle").textContent=favorites.has(a.id)?"Quitar de favoritos":"Añadir a favoritos";refresh()};document.getElementById("detail").classList.add("show")}
+});
+document.getElementById("closeDetail").onclick=()=>document.getElementById("detail").classList.remove("show");
+document.getElementById("search").addEventListener("input",refresh);
+function renderSearch(){const q=document.getElementById("search2").value.toLowerCase();renderGrid(document.getElementById("searchGrid"),animeData.filter(a=>a.title.toLowerCase().includes(q)))}
+document.getElementById("search2").addEventListener("input",renderSearch);
+makeChips();
+animeData=shows.map(s=>({...s,image:"",synopsis:""}));refresh();renderSearch();
+// Fetch one public catalog response, then match known titles. Clear fallback art remains if the service is unavailable.
+async function loadCovers(){
+ const note=document.getElementById("loadNote");
+ try{
+  const response=await fetch("https://api.jikan.moe/v4/top/anime?limit=25");
+  if(!response.ok) throw new Error("catalog unavailable");
+  const json=await response.json();
+  const found=json.data||[];
+  for(const a of animeData){
+   const match=found.find(x=>x.mal_id===a.id)||found.find(x=>(x.title||"").toLowerCase().includes(a.title.toLowerCase()));
+   if(match){a.image=match.images?.jpg?.large_image_url||match.images?.jpg?.image_url||"";a.synopsis=match.synopsis||""}
+  }
+  // For titles not in the top list, request their individual public records at a gentle pace.
+  const missing=animeData.filter(a=>!a.image);
+  for(const a of missing){
+   try{await new Promise(r=>setTimeout(r,1100));const r=await fetch(`https://api.jikan.moe/v4/anime/${a.id}`);if(!r.ok)continue;const j=await r.json();a.image=j.data?.images?.jpg?.large_image_url||j.data?.images?.jpg?.image_url||"";a.synopsis=j.data?.synopsis||""}catch(_){}
+  }
+  refresh();renderSearch();note.textContent="Portadas obtenidas del catálogo público cuando están disponibles. Se requiere internet para cargarlas.";
+ }catch(_){note.textContent="No se pudieron cargar las portadas ahora. Revisa tu conexión e inténtalo de nuevo; el diseño seguirá funcionando."}
+}
+loadCovers();
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+</script>
+</body></html>
